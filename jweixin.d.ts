@@ -1,3 +1,4 @@
+// from https://github.com/Emeryao/typed-jweixin
 declare namespace Wechat {
     interface wx {
         /**注入权限验证配置 */
@@ -129,13 +130,15 @@ declare namespace Wechat {
         /**发起获取收货地址共享接口 */
         openAddress(param: WXAddressParam): void;
     }
-
+    interface ErrMsg {
+        errMsg: string
+    }
     interface WxParamBase {
-        success?: (res?: { errMsg: string }) => void;
-        fail?: (res?: { errMsg: string }) => void;
-        complete?: (res?: { errMsg: string }) => void;
-        cancel?: (res?: { errMsg: string }) => void;
-        trigger?: (res?: { errMsg: string }) => void;
+        success?: (res?: ErrMsg) => void;
+        fail?: (res?: ErrMsg) => void;
+        complete?: (res?: ErrMsg) => void;
+        cancel?: (res?: ErrMsg) => void;
+        trigger?: (res?: ErrMsg) => void;
     }
 
     interface ConfigData extends WxParamBase {
@@ -202,14 +205,14 @@ declare namespace Wechat {
         desc?: string;
     }
 
-    interface LocalResource {
+    interface LocalResource extends ErrMsg {
         /**需要播放的音频的本地ID,由stopRecord接口获得 */
         localId?: string;
         /**选定照片的本地ID列表,localId可以作为img标签的src属性显示图片 */
         localIds?: Array<string>;
     }
 
-    interface ServerResource {
+    interface ServerResource extends ErrMsg{
         /**需要下载的音频的服务器端ID,由uploadVoice接口获得 */
         serverId?: string;
     }
@@ -226,7 +229,7 @@ declare namespace Wechat {
         success?: (res?: LocalResource) => void;
     }
 
-    interface TranslateResource {
+    interface TranslateResource extends ErrMsg {
         /**语音识别的结果 */
         translateResult?: string;
     }
@@ -276,7 +279,7 @@ declare namespace Wechat {
         infoUrl?: string;
     }
 
-    interface LocationResource {
+    interface LocationResource extends ErrMsg {
         /**纬度,浮点数,范围为90 ~ -90 */
         latitude?: number;
         /**经度,浮点数,范围为180 ~ -180 */
@@ -328,7 +331,7 @@ declare namespace Wechat {
         menuList?: Array<string>;
     }
 
-    interface QRCodeResource {
+    interface QRCodeResource extends ErrMsg {
         /**当needResult 为 1 时,扫码返回的结果 */
         resultStr?: string;
     }
@@ -353,7 +356,7 @@ declare namespace Wechat {
         cardExt?: string;
     }
 
-    interface CardResource {
+    interface CardResource extends ErrMsg{
         /**卡券列表 */
         cardList?: Array<CardSpecific>;
     }
@@ -403,7 +406,7 @@ declare namespace Wechat {
 
     interface WXAddressParam extends WxParamBase {
         success: (res?: WXAddressData) => void;
-        cancel: (res?) => void;
+        cancel: (res?:any) => void;
     }
 
     interface BeaconData extends WxParamBase {
